@@ -45,14 +45,16 @@ export function SearchOverlay({ isOpen, onClose }: { isOpen: boolean, onClose: (
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-base/95 backdrop-blur-2xl"
+                        className="fixed inset-0"
+                        style={{ backgroundColor: 'rgba(0, 0, 0, 0.92)', backdropFilter: 'blur(20px)' }}
                     />
                     
                     <motion.div
                         initial={{ opacity: 0, y: -20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                        className="relative w-full max-w-2xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-3xl"
+                        className="relative w-full max-w-2xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+                        style={{ backgroundColor: '#0f0f13' }}
                     >
                         <div className="p-4 sm:p-6 border-b border-white/10 flex items-center gap-4">
                             <div className={`p-2 rounded-xl transition-colors ${query ? "bg-primary/20 text-primary" : "bg-white/5 text-secondary"}`}>

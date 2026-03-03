@@ -5,7 +5,7 @@ export const dummyProducts: Product[] = [
     id: "prod_1",
     name: "iPhone 15 Pro Max",
     price: 1850000,
-    image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=800&auto=format&fit=crop",
     categoryId: "phones",
     brandId: "apple",
     technicalSpecs: {
@@ -35,7 +35,7 @@ export const dummyProducts: Product[] = [
     id: "prod_3",
     name: "Samsung Galaxy S24 Ultra",
     price: 1750000,
-    image: "https://images.unsplash.com/photo-1707227155452-9b27a6f22370?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=800&auto=format&fit=crop",
     categoryId: "phones",
     brandId: "samsung",
     technicalSpecs: {
@@ -106,7 +106,7 @@ export const dummyProducts: Product[] = [
     id: "prod_8",
     name: "iPhone 15 Leather Case",
     price: 35000,
-    image: "https://images.unsplash.com/photo-1603313011101-31c72ee7830d?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?q=80&w=800&auto=format&fit=crop",
     categoryId: "accessories",
     brandId: "apple",
     technicalSpecs: {
@@ -121,5 +121,5 @@ export const categories = [
   { id: "phones", name: "Smartphones", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=400&auto=format&fit=crop" },
   { id: "laptops", name: "Laptops & MacBooks", image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=400&auto=format&fit=crop" },
   { id: "audio", name: "Audio & Headphones", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=400&auto=format&fit=crop" },
-  { id: "accessories", name: "Accessories", image: "https://images.unsplash.com/photo-1588693892881-22fb1dfbd92c?q=80&w=400&auto=format&fit=crop" }
+  { id: "accessories", name: "Accessories", image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?q=80&w=400&auto=format&fit=crop" }
 ];

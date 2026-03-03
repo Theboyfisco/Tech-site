@@ -50,7 +50,7 @@ export default function Home() {
                     </div>
                  </div>
                  <Image 
-                   src="https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop"
+                   src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=800&auto=format&fit=crop"
                    alt="Featured iPhone"
                    fill
                    className="object-contain p-12 group-hover:scale-110 transition-transform duration-700"
