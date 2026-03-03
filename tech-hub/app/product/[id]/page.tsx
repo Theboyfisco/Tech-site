@@ -1,0 +1,92 @@
+import { dummyProducts } from "@/lib/dummy-data";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import { StickyBottomCTA } from "@/components/product/StickyBottomCTA";
+import { SpecComparison } from "@/components/product/SpecComparison";
+import { MessageCircle, ShieldCheck, Truck } from "lucide-react";
+import { AddToCartButton } from "@/components/product/AddToCartButton";
+
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+    const resolvedParams = await params;
+    const product = dummyProducts.find(p => p.id === resolvedParams.id);
+
+    if (!product) {
+        notFound();
+    }
+
+    // Find a product to compare with (just for UI demonstration)
+    const compareProduct = dummyProducts.find(p => p.id !== product.id) || dummyProducts[0];
+    const whatsappMsg = encodeURIComponent(`Hi, I want to buy the ${product.name} for ₦${product.price}`);
+
+    return (
+        <div className="min-h-screen pb-24 lg:pb-12 bg-base">
+
+
+            <main className="container mx-auto px-4 pt-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                    {/* Image Gallery */}
+                    <div className="relative h-[400px] lg:h-[600px] w-full rounded-2xl overflow-hidden bg-white/5 border border-border-subtle">
+                        <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                    </div>
+
+                    {/* Product Details */}
+                    <div className="flex flex-col">
+                        <div className="inline-flex max-w-max items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                            {product.technicalSpecs.condition || "New"}
+                        </div>
+
+                        <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
+                            {product.name}
+                        </h1>
+
+                        <p className="text-3xl font-semibold text-emerald-400 mb-8">
+                            {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(product.price)}
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-4 mb-8">
+                            <div className="flex items-center gap-3 p-4 rounded-standard bg-white/5 border border-white/5">
+                                <Truck className="text-secondary" />
+                                <div>
+                                    <p className="text-sm text-secondary">Delivery</p>
+                                    <p className="text-white font-medium">1-3 Days</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-4 rounded-standard bg-white/5 border border-white/5">
+                                <ShieldCheck className="text-secondary" />
+                                <div>
+                                    <p className="text-sm text-secondary">Warranty</p>
+                                    <p className="text-white font-medium">6 Months</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="hidden sm:flex gap-4 mt-auto">
+                            <AddToCartButton product={product} className="flex-1 bg-white/5 hover:bg-white/10 text-white rounded-standard py-4 font-bold active:scale-95 transition-all outline-none focus:ring-2 focus:ring-white/20 border border-white/10" />
+                            <a
+                                href={`https://wa.me/2348000000000?text=${whatsappMsg}`}
+                                className="flex-1 bg-primary hover:bg-emerald-400 text-base rounded-standard py-4 font-bold flex items-center justify-center gap-2 active:scale-95 transition-all shadow-glow"
+                            >
+                                <MessageCircle size={20} />
+                                Buy via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Specs Comparison Section */}
+                <section className="mt-16 max-w-4xl mx-auto">
+                    <h2 className="text-2xl font-bold text-white mb-8">Compare Specifications</h2>
+                    <SpecComparison productA={product} productB={compareProduct} />
+                </section>
+            </main>
+
+            <StickyBottomCTA product={product} />
+        </div>
+    );
+}

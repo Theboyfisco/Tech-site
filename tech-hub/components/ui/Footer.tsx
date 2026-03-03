@@ -1,0 +1,98 @@
+import Link from "next/link";
+import { Facebook, Instagram, Twitter, MapPin, Mail, Phone } from "lucide-react";
+
+export function Footer() {
+  return (
+    <footer className="w-full bg-base border-t border-border-subtle pt-16 pb-8 mt-auto">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+          
+          {/* Brand & Newsletter */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 inline-block mb-6">
+              TechHub NG
+            </Link>
+            <p className="text-secondary text-sm mb-6 leading-relaxed">
+              Premium authentic gadgets, unbeatable prices, and lightning-fast delivery across Nigeria.
+            </p>
+            <form className="flex gap-2">
+              <input 
+                type="email" 
+                placeholder="Join our newsletter" 
+                className="bg-white/5 border border-border-subtle rounded-md px-4 py-2 w-full text-sm text-white focus:outline-none focus:border-primary transition-colors"
+              />
+              <button type="button" className="bg-primary hover:bg-emerald-400 text-base px-4 py-2 rounded-md font-medium text-sm transition-colors">
+                Subscribe
+              </button>
+            </form>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-white font-semibold mb-6">Categories</h3>
+            <ul className="space-y-4">
+              <li><Link href="/category/phones" className="text-secondary hover:text-primary transition-colors text-sm">Smartphones</Link></li>
+              <li><Link href="/category/laptops" className="text-secondary hover:text-primary transition-colors text-sm">Laptops & PCs</Link></li>
+              <li><Link href="/category/audio" className="text-secondary hover:text-primary transition-colors text-sm">Headphones & Audio</Link></li>
+              <li><Link href="/category/accessories" className="text-secondary hover:text-primary transition-colors text-sm">Accessories</Link></li>
+              <li><Link href="/brand/apple" className="text-secondary hover:text-primary transition-colors text-sm">Apple Store</Link></li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h3 className="text-white font-semibold mb-6">Company</h3>
+            <ul className="space-y-4">
+              <li><Link href="/about" className="text-secondary hover:text-primary transition-colors text-sm">About Us</Link></li>
+              <li><Link href="/contact" className="text-secondary hover:text-primary transition-colors text-sm">Contact & Support</Link></li>
+              <li><Link href="/shipping" className="text-secondary hover:text-primary transition-colors text-sm">Shipping Policy</Link></li>
+              <li><Link href="/returns" className="text-secondary hover:text-primary transition-colors text-sm">Returns & Refunds</Link></li>
+              <li><Link href="/warranty" className="text-secondary hover:text-primary transition-colors text-sm">Warranty Information</Link></li>
+            </ul>
+          </div>
+
+          {/* Contact Details */}
+          <div>
+            <h3 className="text-white font-semibold mb-6">Get in Touch</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-secondary text-sm">
+                <MapPin size={18} className="text-primary shrink-0 mt-0.5" />
+                <span>12 Tech Avenue, G.R.A,<br/>Asaba, Delta State 320213</span>
+              </li>
+              <li className="flex items-center gap-3 text-secondary text-sm">
+                <Phone size={18} className="text-primary shrink-0" />
+                <span>+234 (0) 800 000 0000</span>
+              </li>
+              <li className="flex items-center gap-3 text-secondary text-sm">
+                <Mail size={18} className="text-primary shrink-0" />
+                <span>support@techhub.com.ng</span>
+              </li>
+            </ul>
+            
+            <div className="flex gap-4 mt-6">
+              <a href="#" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
+                <Facebook size={18} />
+              </a>
+              <a href="#" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
+                <Twitter size={18} />
+              </a>
+              <a href="#" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
+                <Instagram size={18} />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-8 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-secondary text-sm">
+            © {new Date().getFullYear()} TechHub NG. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="text-secondary hover:text-white text-sm transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-secondary hover:text-white text-sm transition-colors">Terms of Service</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
