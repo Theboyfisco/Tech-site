@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TechHub NG — Premium Gadget Storefront
 
-## Getting Started
+Welcome to **TechHub NG**, a cutting-edge, ultra-minimalist e-commerce frontend built with **Next.js 15** and **Tailwind CSS v4**.
 
-First, run the development server:
+Designed specifically for the Nigerian gadget market (Apple & Samsung specialists), this platform focuses on high conversion rates through mobile-first design, lightning-fast interactions, and glassmorphism aesthetics.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Key Highlights
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🌑 **Premium Dark Mode**: Deep black backgrounds with emerald accents.
+- 🪟 **Glassmorphism 2.0**: Elegant blurs and translucent layers across the UI.
+- 🔍 **Portal-based Search**: High-performance search with `Cmd+K` accessibility.
+- 🛒 **Persistent Cart**: Lightweight shopping bag with local storage sync.
+- 📱 **Mobile Optimized**: Sticky CTAs and gestures designed for mobile users.
+- ⚡ **Next.js 15 (Turbo)**: Optimized for the fastest possible development and build times.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Enter the project directory**:
 
-## Learn More
+   ```bash
+   cd tech-hub
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Run the development server**:
 
-## Deploy on Vercel
+   ```bash
+   npm run dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Visit the shop**:
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Documentation
+
+For a deep dive into the specific features and technical implementation, check out:
+
+- [**FEATURES.md**](./FEATURES.md): Detailed breakdown of every feature and design decision.
+
+---
+
+_Official Platform for Apple & Samsung Gadgets in Nigeria._

@@ -1,0 +1,64 @@
+import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
+import prisma from "@/lib/db";
+
+const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.text();
+    const signature = req.headers.get("x-paystack-signature");
+
+    if (!signature || !PAYSTACK_SECRET_KEY) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // 1. Verify Signature
+    const hash = crypto
+      .createHmac("sha512", PAYSTACK_SECRET_KEY)
+      .update(body)
+      .digest("hex");
+
+    if (hash !== signature) {
+      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+    }
+
+    const event = JSON.parse(body);
+
+    // 2. Handle successful charge
+    if (event.event === "charge.success") {
+      const { metadata, amount, reference } = event.data;
+      const orderId = metadata.orderId;
+
+      if (!orderId) {
+        return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
+      }
+
+      // 3. Validate order total against received amount
+      const order = await prisma.order.findUnique({
+        where: { id: orderId }
+      });
+
+      if (!order || order.totalAmount !== amount) {
+        console.error(`Amount mismatch: Order ${orderId} expected ${order?.totalAmount}, got ${amount}`);
+        return NextResponse.json({ error: "Validation failed" }, { status: 400 });
+      }
+
+      // 4. Update order status and Payment Reference (atomic)
+      await prisma.order.update({
+        where: { id: orderId },
+        data: {
+          status: "PAID",
+          paymentReference: reference,
+        }
+      });
+
+      console.log(`Order ${orderId} marked as PAID via reference ${reference}`);
+    }
+
+    return NextResponse.json({ status: "success" });
+  } catch (error: any) {
+    console.error("Webhook handler error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
