@@ -6,6 +6,8 @@ export const dummyProducts: Product[] = [
     name: "iPhone 15 Pro Max",
     price: 1850000,
     image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop",
+    categoryId: "phones",
+    brandId: "apple",
     technicalSpecs: {
       battery: "4422mAh",
       storage: "256GB NVMe",
@@ -19,6 +21,8 @@ export const dummyProducts: Product[] = [
     name: "MacBook Pro M3",
     price: 3200000,
     image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop",
+    categoryId: "laptops",
+    brandId: "apple",
     technicalSpecs: {
       battery: "70Wh",
       storage: "512GB SSD",
@@ -32,6 +36,8 @@ export const dummyProducts: Product[] = [
     name: "Samsung Galaxy S24 Ultra",
     price: 1750000,
     image: "https://images.unsplash.com/photo-1707227155452-9b27a6f22370?q=80&w=800&auto=format&fit=crop",
+    categoryId: "phones",
+    brandId: "samsung",
     technicalSpecs: {
       battery: "5000mAh",
       storage: "512GB UFS 4.0",
@@ -45,6 +51,8 @@ export const dummyProducts: Product[] = [
     name: "Sony WH-1000XM5",
     price: 450000,
     image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=800&auto=format&fit=crop",
+    categoryId: "audio",
+    brandId: "sony",
     technicalSpecs: {
       battery: "30 Hours",
       condition: "Refurbished",
@@ -57,6 +65,8 @@ export const dummyProducts: Product[] = [
     name: "AirPods Pro (2nd Gen)",
     price: 285000,
     image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?q=80&w=800&auto=format&fit=crop",
+    categoryId: "audio",
+    brandId: "apple",
     technicalSpecs: {
       battery: "6 Hours (30 with case)",
       condition: "New",
@@ -69,12 +79,40 @@ export const dummyProducts: Product[] = [
     name: "iPad Pro 12.9 M2",
     price: 1550000,
     image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=800&auto=format&fit=crop",
+    categoryId: "accessories",
+    brandId: "apple",
     technicalSpecs: {
       battery: "10758mAh",
       storage: "256GB SSD",
       ram: "8GB",
       condition: "New",
       screen: "12.9in Liquid Retina XDR Mini-LED"
+    }
+  },
+  {
+    id: "prod_7",
+    name: "Apple MagSafe Charger",
+    price: 45000,
+    image: "https://images.unsplash.com/photo-1615526675159-e248c3021d3f?q=80&w=800&auto=format&fit=crop",
+    categoryId: "accessories",
+    brandId: "apple",
+    technicalSpecs: {
+      condition: "New",
+      compatibility: "iPhone 12 or later",
+      wattage: "15W Fast Charge"
+    }
+  },
+  {
+    id: "prod_8",
+    name: "iPhone 15 Leather Case",
+    price: 35000,
+    image: "https://images.unsplash.com/photo-1603313011101-31c72ee7830d?q=80&w=800&auto=format&fit=crop",
+    categoryId: "accessories",
+    brandId: "apple",
+    technicalSpecs: {
+      condition: "New",
+      material: "Premium Leather",
+      protection: "Drop + Scratch Resistant"
     }
   }
 ];

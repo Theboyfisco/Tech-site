@@ -14,9 +14,10 @@ export function SpecComparison({ productA, productB }: { productA: Product; prod
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full border border-border-subtle rounded-standard overflow-hidden bg-base shadow-glass"
+            className="w-full border border-border-subtle rounded-standard bg-base shadow-glass overflow-hidden"
         >
-            <table className="w-full text-left text-sm text-secondary">
+            <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm text-secondary min-w-[500px] md:min-w-full">
                 <thead className="bg-white/5 border-b border-border-subtle backdrop-blur-md">
                     <tr>
                         <th className="p-4 font-medium uppercase tracking-wider text-xs">Feature</th>
@@ -34,6 +35,7 @@ export function SpecComparison({ productA, productB }: { productA: Product; prod
                     ))}
                 </tbody>
             </table>
+            </div>
         </motion.div>
     );
 }

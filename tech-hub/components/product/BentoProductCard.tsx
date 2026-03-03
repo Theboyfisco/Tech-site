@@ -9,6 +9,8 @@ export interface Product {
     name: string;
     price: number;
     image: string;
+    categoryId: string;
+    brandId: string;
     blurHash?: string;
     technicalSpecs: {
         battery?: string;
@@ -47,17 +49,17 @@ export function BentoProductCard({ product, featured = false }: BentoProductCard
                 {new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(product.price)}
             </p>
 
-            {/* Quick Specs Hover Reveal */}
-            <div className="absolute inset-x-0 bottom-0 p-4 bg-base/90 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <div className="font-mono text-sm text-secondary flex justify-between">
-                    <span>{product.technicalSpecs.battery}</span>
-                    <span>{product.technicalSpecs.storage}</span>
-                </div>
+            {/* Quick Specs Reveal */}
+            <div className={`mt-4 pt-4 border-t border-white/5 font-mono text-xs text-secondary flex justify-between lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300`}>
+                <span>{product.technicalSpecs.battery || "4500mAh"}</span>
+                <span>{product.technicalSpecs.storage || "128GB"}</span>
+                <span>{product.technicalSpecs.ram || "8GB"}</span>
             </div>
 
             <a
                 href={`https://wa.me/2348000000000?text=${whatsappMsg}`}
                 className="absolute top-4 right-4 p-2 bg-primary/20 hover:bg-primary/40 text-primary rounded-full backdrop-blur-md transition-colors"
+                onClick={(e) => e.stopPropagation()}
             >
                 <MessageCircle size={20} />
             </a>

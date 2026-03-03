@@ -1,7 +1,23 @@
+"use client";
+
 import Link from "next/link";
-import { Facebook, Instagram, Twitter, MapPin, Mail, Phone } from "lucide-react";
+import { Facebook, Instagram, Twitter, MapPin, Mail, Phone, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 export function Footer() {
+  const [subscribed, setSubscribed] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+      setEmail("");
+      setTimeout(() => setSubscribed(false), 5000);
+    }
+  };
+
   return (
     <footer className="w-full bg-base border-t border-border-subtle pt-16 pb-8 mt-auto">
       <div className="container mx-auto px-4">
@@ -15,16 +31,31 @@ export function Footer() {
             <p className="text-secondary text-sm mb-6 leading-relaxed">
               Premium authentic gadgets, unbeatable prices, and lightning-fast delivery across Nigeria.
             </p>
-            <form className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Join our newsletter" 
-                className="bg-white/5 border border-border-subtle rounded-md px-4 py-2 w-full text-sm text-white focus:outline-none focus:border-primary transition-colors"
-              />
-              <button type="button" className="bg-primary hover:bg-emerald-400 text-base px-4 py-2 rounded-md font-medium text-sm transition-colors">
-                Subscribe
-              </button>
-            </form>
+            
+            {subscribed ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-2 text-primary font-medium text-sm py-2 px-4 bg-primary/10 border border-primary/20 rounded-md"
+              >
+                <CheckCircle2 size={18} />
+                Awesome! You&apos;re on the list.
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="flex gap-2">
+                <input 
+                  required
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Join our newsletter" 
+                  className="bg-white/5 border border-border-subtle rounded-md px-4 py-2 w-full text-sm text-white focus:outline-none focus:border-primary transition-colors"
+                />
+                <button type="submit" className="bg-primary hover:bg-emerald-400 text-base px-4 py-2 rounded-md font-medium text-sm transition-colors whitespace-nowrap">
+                  Subscribe
+                </button>
+              </form>
+            )}
           </div>
 
           {/* Quick Links */}
@@ -70,13 +101,13 @@ export function Footer() {
             </ul>
             
             <div className="flex gap-4 mt-6">
-              <a href="#" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
                 <Facebook size={18} />
               </a>
-              <a href="#" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
                 <Twitter size={18} />
               </a>
-              <a href="#" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 rounded-full text-secondary hover:text-primary hover:bg-primary/10 transition-all">
                 <Instagram size={18} />
               </a>
             </div>

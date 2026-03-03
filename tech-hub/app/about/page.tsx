@@ -1,8 +1,16 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-16 flex-1">
+    <div className="container mx-auto px-4 py-8 md:py-16 flex-1">
+      <Link href="/" className="inline-flex items-center gap-2 text-secondary hover:text-white mb-8 transition-colors group">
+        <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+        Back to Home
+      </Link>
       <div className="max-w-3xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6">Redefining Tech Retail in Nigeria</h1>
         <p className="text-secondary text-lg">

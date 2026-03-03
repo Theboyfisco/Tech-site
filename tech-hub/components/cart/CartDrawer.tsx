@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, X } from 'lucide-react';
+import Link from 'next/link';
 import type { Product } from '../product/BentoProductCard';
 
 interface CartDrawerProps {
@@ -76,9 +77,13 @@ export function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerProps) {
                                     <span>Total</span>
                                     <span>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(total)}</span>
                                 </div>
-                                <button className="w-full bg-primary text-base py-4 rounded-standard font-bold hover:bg-emerald-400 transition-colors shadow-glow active:scale-95">
+                                <Link 
+                                    href="/checkout" 
+                                    onClick={onClose}
+                                    className="w-full bg-primary text-base py-4 rounded-standard font-bold hover:bg-emerald-400 transition-colors shadow-glow active:scale-95 text-center flex items-center justify-center"
+                                >
                                     Secure Checkout
-                                </button>
+                                </Link>
                             </div>
                         )}
                     </motion.div>

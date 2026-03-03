@@ -1,8 +1,15 @@
-import { MapPin, Mail, Phone, Clock } from "lucide-react";
+"use client";
+
+import { MapPin, Mail, Phone, Clock, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto px-4 py-16 flex-1">
+    <div className="container mx-auto px-4 py-8 md:py-16 flex-1">
+      <Link href="/" className="inline-flex items-center gap-2 text-secondary hover:text-white mb-8 transition-colors group">
+        <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+        Back to Home
+      </Link>
       <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6">Contact Us</h1>
       <p className="text-secondary text-lg mb-12 max-w-2xl">
         Experiencing issues with an order or just want to chat gadgets? Drop us a line and our dedicated team will get back to you as soon as possible.

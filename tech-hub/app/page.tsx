@@ -7,27 +7,61 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-24">
 
-      <main className="container mx-auto px-4 pt-12">
+      <main className="container mx-auto px-4 pt-12 relative overflow-hidden">
+        {/* Animated Background Orbs */}
+        <div className="absolute top-0 -left-20 w-72 h-72 bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse" />
+        <div className="absolute top-40 -right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-[150px] -z-10 animate-pulse delay-700" />
+
         {/* Hero Section */}
-        <section className="mb-16 text-center sm:text-left flex flex-col items-center sm:items-start">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-border-subtle text-sm text-primary mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            Same Day Delivery in Asaba
+        <section className="mb-24 flex flex-col lg:flex-row items-center justify-between gap-12 pt-8 lg:pt-16">
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-border-subtle text-sm text-primary mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              Official Apple & Samsung Partner in Asaba
+            </div>
+            <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tighter text-white mb-8 leading-[1.1]">
+              Elevate Your <br />
+              <span className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-600 bg-clip-text text-transparent">Digital Lifestyle.</span>
+            </h1>
+            <p className="text-lg sm:text-xl text-secondary max-w-xl mb-10 mx-auto lg:mx-0 leading-relaxed">
+              Experience the pinnacle of technology. Authentic iPhones, MacBooks, and high-performance gadgets delivered to your doorstep.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Link href="#featured" className="bg-primary text-base font-bold px-10 py-4 rounded-standard hover:bg-emerald-400 transition-all shadow-glow text-center hover:scale-105 active:scale-95">
+                Explore Deals
+              </Link>
+              <Link href="/category/phones" className="bg-white/5 border border-border-subtle text-white font-bold px-10 py-4 rounded-standard hover:bg-white/10 transition-all text-center">
+                View Catalog
+              </Link>
+            </div>
           </div>
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight max-w-2xl">
-            Premium Gadgets. <br />
-            <span className="text-secondary font-medium">Unbeatable Prices.</span>
-          </h1>
-          <p className="text-lg text-secondary max-w-xl mb-8">
-            The ultimate destination for authentic iPhones, MacBooks, and Android flagships. Delivered fast and secure.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Link href="#featured" className="bg-primary text-base font-bold px-8 py-4 rounded-standard hover:bg-emerald-400 transition-colors shadow-glow text-center">
-              Shop Featured Deals
-            </Link>
+
+          <div className="flex-1 relative hidden lg:block">
+            <div className="relative w-full aspect-square max-w-lg mx-auto">
+              {/* Featured Glass Card */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-[2rem] blur-2xl -z-10" />
+              <div className="w-full h-full bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden group">
+                 <div className="absolute top-0 right-0 p-4">
+                    <div className="bg-primary/20 text-primary text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border border-primary/30">
+                       Best Seller
+                    </div>
+                 </div>
+                 <Image 
+                   src="https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop"
+                   alt="Featured iPhone"
+                   fill
+                   className="object-contain p-12 group-hover:scale-110 transition-transform duration-700"
+                 />
+                 <div className="absolute bottom-8 left-8 right-8 p-6 bg-black/40 backdrop-blur-md rounded-2xl border border-white/5">
+                    <p className="text-secondary text-xs uppercase font-bold tracking-widest mb-1">Latest Release</p>
+                    <h4 className="text-white text-xl font-bold">iPhone 15 Pro Max</h4>
+                    <p className="text-primary font-bold">Starting from ₦1,850,000</p>
+                 </div>
+              </div>
+            </div>
           </div>
         </section>
 
