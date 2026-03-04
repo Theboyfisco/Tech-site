@@ -22,20 +22,26 @@ import { Navbar } from "@/components/ui/Navbar";
 import { CartWrapper } from "@/components/cart/CartWrapper";
 import { Footer } from "@/components/ui/Footer";
 
-export default function RootLayout({
+import prisma from "@/lib/db";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const categories = await prisma.category.findMany({
+    select: { id: true, name: true }
+  });
+
   return (
     <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-primary/20 selection:text-white flex flex-col min-h-screen`}
       >
         <CartProvider>
-          <Navbar />
+          <Navbar categories={categories} />
           {children}
-          <Footer />
+          <Footer categories={categories} />
           <CartWrapper />
         </CartProvider>
       </body>

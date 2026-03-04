@@ -10,7 +10,7 @@ export interface Product {
     price: number;
     image: string;
     categoryId: string;
-    brandId: string;
+    brandId?: string;
     blurHash?: string;
     technicalSpecs: {
         battery?: string;

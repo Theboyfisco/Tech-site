@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const OrderItemSchema = z.object({
-  productId: z.string().cuid(),
+  productId: z.string().min(1, "Product ID is required"),
   quantity: z.number().int().positive(),
 });
 

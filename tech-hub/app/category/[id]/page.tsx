@@ -1,18 +1,33 @@
-import { BentoProductCard } from "@/components/product/BentoProductCard";
-import { dummyProducts, categories } from "@/lib/dummy-data";
+import prisma from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { BentoProductCard } from "@/components/product/BentoProductCard";
 
 export default async function CategoryPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const categoryId = resolvedParams.id;
-  const category = categories.find(c => c.id === categoryId);
+  
+  const [category, dbProducts] = await Promise.all([
+      prisma.category.findUnique({ where: { id: categoryId } }),
+      prisma.product.findMany({ 
+          where: { categoryId: categoryId },
+          orderBy: { createdAt: 'desc' },
+          include: { category: true }
+      })
+  ]);
 
   if (!category) {
       notFound();
   }
 
-  const products = dummyProducts.filter(p => p.categoryId === categoryId);
+  const products = dbProducts.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    image: p.images[0],
+    categoryId: p.categoryId,
+    technicalSpecs: p.technicalSpecs as any
+  }));
 
   return (
     <div className="container mx-auto px-4 py-16 flex-1">
@@ -29,7 +44,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {products.map((product: any) => (
             <Link href={`/product/${product.id}`} key={product.id}>
               <BentoProductCard product={product} />
             </Link>

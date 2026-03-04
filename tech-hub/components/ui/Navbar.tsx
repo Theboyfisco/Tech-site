@@ -9,7 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SearchOverlay } from "./SearchOverlay";
 import { createPortal } from "react-dom";
 
-export function Navbar() {
+interface NavbarProps {
+    categories?: { id: string; name: string }[];
+}
+
+export function Navbar({ categories = [] }: NavbarProps) {
     const { cartItems, toggleCart } = useCart();
     const pathname = usePathname();
     const isHome = pathname === "/";
@@ -42,10 +46,11 @@ export function Navbar() {
     }, []);
 
     const navLinks = [
-        { name: "Phones", href: "/category/phones", icon: Smartphone },
-        { name: "Laptops", href: "/category/laptops", icon: Laptop },
-        { name: "Audio", href: "/category/audio", icon: Headphones },
-        { name: "Accessories", href: "/category/accessories", icon: Smartphone },
+        ...categories.map(cat => ({
+            name: cat.name,
+            href: `/category/${cat.id}`,
+            icon: cat.id === 'phones' ? Smartphone : cat.id === 'laptops' ? Laptop : cat.id === 'audio' ? Headphones : Smartphone
+        })),
         { name: "About", href: "/about", icon: Info },
         { name: "Contact", href: "/contact", icon: Mail }
     ];

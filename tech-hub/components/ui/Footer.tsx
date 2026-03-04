@@ -5,7 +5,11 @@ import { Facebook, Instagram, Twitter, MapPin, Mail, Phone, CheckCircle2 } from 
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export function Footer() {
+interface FooterProps {
+  categories?: { id: string; name: string }[];
+}
+
+export function Footer({ categories = [] }: FooterProps) {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -62,10 +66,13 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-6">Categories</h3>
             <ul className="space-y-4">
-              <li><Link href="/category/phones" className="text-secondary hover:text-primary transition-colors text-sm">Smartphones</Link></li>
-              <li><Link href="/category/laptops" className="text-secondary hover:text-primary transition-colors text-sm">Laptops & PCs</Link></li>
-              <li><Link href="/category/audio" className="text-secondary hover:text-primary transition-colors text-sm">Headphones & Audio</Link></li>
-              <li><Link href="/category/accessories" className="text-secondary hover:text-primary transition-colors text-sm">Accessories</Link></li>
+              {categories.map((cat) => (
+                <li key={cat.id}>
+                  <Link href={`/category/${cat.id}`} className="text-secondary hover:text-primary transition-colors text-sm">
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
               <li><Link href="/brand/apple" className="text-secondary hover:text-primary transition-colors text-sm">Apple Store</Link></li>
             </ul>
           </div>

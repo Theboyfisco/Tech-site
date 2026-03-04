@@ -1,12 +1,31 @@
+import prisma from "@/lib/db";
 import { BentoProductCard } from "@/components/product/BentoProductCard";
-import { dummyProducts } from "@/lib/dummy-data";
 import Link from "next/link";
 
 export default async function BrandPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const brandId = resolvedParams.id;
   
-  const products = dummyProducts.filter(p => p.brandId === brandId);
+  const dbProducts = await prisma.product.findMany({
+    where: {
+      OR: [
+        { name: { contains: brandId, mode: 'insensitive' } },
+        { description: { contains: brandId, mode: 'insensitive' } }
+      ]
+    },
+    include: { category: true }
+  });
+
+  const products = dbProducts.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    image: p.images[0],
+    categoryId: p.categoryId,
+    brandId: brandId,
+    technicalSpecs: p.technicalSpecs as any
+  }));
+
   const brandName = brandId.charAt(0).toUpperCase() + brandId.slice(1);
 
   return (
@@ -24,7 +43,7 @@ export default async function BrandPage({ params }: { params: Promise<{ id: stri
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {products.map((product: any) => (
             <Link href={`/product/${product.id}`} key={product.id}>
               <BentoProductCard product={product} />
             </Link>

@@ -1,9 +1,29 @@
 import { BentoProductCard } from "@/components/product/BentoProductCard";
-import { dummyProducts, categories } from "@/lib/dummy-data";
 import { ShieldCheck, Truck, Clock, CreditCard } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-export default function Home() {
+import prisma from "@/lib/db";
+
+export default async function Home() {
+  const [dbProducts, dbCategories] = await Promise.all([
+    prisma.product.findMany({
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+      include: { category: true }
+    }),
+    prisma.category.findMany()
+  ]);
+
+  // Map DB products to frontend Product type
+  const featuredProducts = dbProducts.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    image: p.images[0],
+    categoryId: p.categoryId,
+    technicalSpecs: p.technicalSpecs as any
+  }));
+
   return (
     <div className="min-h-screen pb-24">
 
@@ -20,7 +40,7 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Official Apple & Samsung Partner in Asaba
+              Official Apple & Samsung Distributors in Asaba
             </div>
             <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tighter text-white mb-8 leading-[1.1]">
               Elevate Your <br />
@@ -41,7 +61,6 @@ export default function Home() {
 
           <div className="flex-1 relative hidden lg:block">
             <div className="relative w-full aspect-square max-w-lg mx-auto">
-              {/* Featured Glass Card */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-[2rem] blur-2xl -z-10" />
               <div className="w-full h-full bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-4">
@@ -50,15 +69,17 @@ export default function Home() {
                     </div>
                  </div>
                  <Image 
-                   src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=800&auto=format&fit=crop"
-                   alt="Featured iPhone"
+                   src={featuredProducts[0]?.image || "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=800&auto=format&fit=crop"}
+                   alt="Featured Product"
                    fill
                    className="object-contain p-12 group-hover:scale-110 transition-transform duration-700"
                  />
                  <div className="absolute bottom-8 left-8 right-8 p-6 bg-black/40 backdrop-blur-md rounded-2xl border border-white/5">
                     <p className="text-secondary text-xs uppercase font-bold tracking-widest mb-1">Latest Release</p>
-                    <h4 className="text-white text-xl font-bold">iPhone 15 Pro Max</h4>
-                    <p className="text-primary font-bold">Starting from ₦1,850,000</p>
+                    <h4 className="text-white text-xl font-bold">{featuredProducts[0]?.name || "New Arrival"}</h4>
+                    <p className="text-primary font-bold">
+                      {featuredProducts[0] ? new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(featuredProducts[0].price) : "Coming Soon"}
+                    </p>
                  </div>
               </div>
             </div>
@@ -71,7 +92,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white">Shop by Category</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.map(category => (
+            {dbCategories.map((category: any) => (
               <Link href={`/category/${category.id}`} key={category.id} className="group relative h-40 rounded-standard overflow-hidden border border-border-subtle hover:border-primary/50 transition-colors">
                 <Image 
                   src={category.image} 
@@ -119,10 +140,10 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white">Featured Deals</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {dummyProducts.map((product, index) => (
+            {featuredProducts.map((product: any, index: number) => (
               <Link href={`/product/${product.id}`} key={product.id} className={index === 0 ? "md:col-span-2 lg:col-span-2" : ""}>
                 <BentoProductCard
-                  product={product}
+                  product={product as any}
                   featured={index === 0}
                 />
               </Link>

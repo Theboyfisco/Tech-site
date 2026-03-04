@@ -1,4 +1,4 @@
-import { dummyProducts } from "@/lib/dummy-data";
+import prisma from "@/lib/db";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { StickyBottomCTA } from "@/components/product/StickyBottomCTA";
@@ -8,20 +8,46 @@ import { AddToCartButton } from "@/components/product/AddToCartButton";
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = await params;
-    const product = dummyProducts.find(p => p.id === resolvedParams.id);
+    
+    const dbProduct = await prisma.product.findUnique({
+        where: { id: resolvedParams.id },
+        include: { category: true }
+    });
 
-    if (!product) {
+    if (!dbProduct) {
         notFound();
     }
 
-    // Find a product to compare with (just for UI demonstration)
-    const compareProduct = dummyProducts.find(p => p.id !== product.id) || dummyProducts[0];
+    // Map DB product to frontend Product type
+    const product = {
+        id: dbProduct.id,
+        name: dbProduct.name,
+        price: dbProduct.price,
+        image: dbProduct.images[0],
+        categoryId: dbProduct.categoryId,
+        brandId: undefined, // Optional brand
+        technicalSpecs: dbProduct.technicalSpecs as any
+    };
+
+    // Find a product to compare with
+    const compareDbProduct = await prisma.product.findFirst({
+        where: { id: { not: product.id } }
+    });
+    
+    const compareProduct = compareDbProduct ? {
+        id: compareDbProduct.id,
+        name: compareDbProduct.name,
+        price: compareDbProduct.price,
+        image: compareDbProduct.images[0],
+        categoryId: compareDbProduct.categoryId,
+        brandId: undefined,
+        technicalSpecs: compareDbProduct.technicalSpecs as any
+    } : product;
+
     const whatsappMsg = encodeURIComponent(`Hi, I want to buy the ${product.name} for ₦${product.price}`);
 
     return (
         <div className="min-h-screen pb-24 lg:pb-12 bg-base">
-
-
             <main className="container mx-auto px-4 pt-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
                     {/* Image Gallery */}
@@ -38,7 +64,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                     {/* Product Details */}
                     <div className="flex flex-col">
                         <div className="inline-flex max-w-max items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-                            {product.technicalSpecs.condition || "New"}
+                            {(product.technicalSpecs as any).condition || "New"}
                         </div>
 
                         <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">

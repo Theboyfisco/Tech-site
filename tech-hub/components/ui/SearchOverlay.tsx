@@ -1,27 +1,47 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search as SearchIcon, X, Smartphone, Laptop, Headphones, ArrowRight, Gamepad } from "lucide-react";
-import { dummyProducts } from "@/lib/dummy-data";
+import { searchProducts } from "@/actions/product";
 import Link from "next/link";
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
 
 export function SearchOverlay({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
     const [query, setQuery] = useState("");
+    const [results, setResults] = useState<any[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
     const router = useRouter();
 
-    const results = useMemo(() => {
-        if (query.trim() === "") {
-            return dummyProducts.slice(0, 5);
-        }
-        return dummyProducts.filter(p => 
-            p.name.toLowerCase().includes(query.toLowerCase()) || 
-            p.categoryId.toLowerCase().includes(query.toLowerCase())
-        );
-    }, [query]);
+    // Search logic
+    useEffect(() => {
+        const performSearch = async () => {
+            setIsSearching(true);
+            try {
+                const dbResults = await searchProducts(query);
+                const mapped = dbResults.map(p => ({
+                    id: p.id,
+                    name: p.name,
+                    price: p.price,
+                    image: p.images[0],
+                    categoryId: p.categoryId,
+                    technicalSpecs: p.technicalSpecs as any
+                }));
+                setResults(mapped);
+            } catch (err) {
+                console.error("Search failed:", err);
+            } finally {
+                setIsSearching(false);
+            }
+        };
+
+        const timer = setTimeout(() => {
+            if (isOpen) performSearch();
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [query, isOpen]);
 
     // Close on Escape key
     useEffect(() => {

@@ -6,13 +6,80 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 
+import { createOrder } from "@/actions/order";
+import { initializePayment } from "@/actions/paystack";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 export default function CheckoutPage() {
-    const { cartItems } = useCart();
+    const { cartItems, clearCart } = useCart();
+    const router = useRouter();
     const [step, setStep] = useState(1);
-    
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Form State
+    const [formData, setFormData] = useState({
+        fullName: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "Asaba",
+        state: "Delta",
+        shippingType: "DELIVERY" as const
+    });
+
     const total = cartItems.reduce((acc, item) => acc + item.price, 0);
 
-    if (cartItems.length === 0) {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleConfirmOrder = async () => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            // 1. Create Order in DB
+            const orderResult = await createOrder({
+                email: formData.email,
+                phone: formData.phone,
+                items: cartItems.map(item => ({
+                    productId: item.id,
+                    quantity: 1 // Logic for quantity can be expanded later
+                })),
+                shipping: {
+                    fullName: formData.fullName,
+                    address: formData.address,
+                    city: formData.city,
+                    state: formData.state,
+                    shippingType: formData.shippingType
+                }
+            });
+
+            if (!orderResult.success || !orderResult.orderId) {
+                throw new Error(orderResult.error || "Failed to create order");
+            }
+
+            // 2. Initialize Paystack Payment
+            const paymentResult = await initializePayment(orderResult.orderId);
+
+            if (!paymentResult.success || !paymentResult.authorization_url) {
+                throw new Error(paymentResult.error || "Failed to initialize payment");
+            }
+
+            // 3. Clear Cart and Redirect to Paystack
+            clearCart();
+            window.location.href = paymentResult.authorization_url;
+
+        } catch (err: any) {
+            setError(err.message || "An unexpected error occurred");
+            setIsLoading(false);
+        }
+    };
+
+    if (cartItems.length === 0 && step !== 3) {
         return (
             <div className="container mx-auto px-4 py-24 text-center">
                 <h1 className="text-3xl font-bold text-white mb-4">Your cart is empty</h1>
@@ -32,7 +99,6 @@ export default function CheckoutPage() {
             </Link>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                {/* Checkout Form */}
                 <div className="lg:col-span-2">
                     <div className="flex items-center gap-4 mb-8">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${step >= 1 ? 'bg-primary text-base' : 'bg-white/10 text-secondary'}`}>1</div>
@@ -42,6 +108,12 @@ export default function CheckoutPage() {
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${step === 3 ? 'bg-primary text-base' : 'bg-white/10 text-secondary'}`}>3</div>
                     </div>
 
+                    {error && (
+                        <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-standard mb-8 flex items-center gap-3">
+                            <span className="font-medium">{error}</span>
+                        </div>
+                    )}
+
                     {step === 1 && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
@@ -50,35 +122,40 @@ export default function CheckoutPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-secondary">Full Name</label>
-                                    <input type="text" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="John Doe" />
+                                    <input name="fullName" value={formData.fullName} onChange={handleInputChange} type="text" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="John Doe" />
                                 </div>
                                 <div className="space-y-2">
+                                    <label className="text-sm font-medium text-secondary">Email Address</label>
+                                    <input name="email" value={formData.email} onChange={handleInputChange} type="email" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="john@example.com" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
                                     <label className="text-sm font-medium text-secondary">Phone Number</label>
-                                    <input type="tel" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="+234 800 000 0000" />
+                                    <input name="phone" value={formData.phone} onChange={handleInputChange} type="tel" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="080 0000 0000" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-secondary">City (NG)</label>
+                                    <input name="city" value={formData.city} onChange={handleInputChange} type="text" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="Asaba" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-secondary">Shipping Address</label>
-                                <textarea className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" rows={3} placeholder="Street address, Apartment, Estate, etc."></textarea>
+                                <textarea name="address" value={formData.address} onChange={handleInputChange} className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" rows={3} placeholder="Street address, Apartment, Estate, etc."></textarea>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-secondary">City (NG)</label>
-                                    <input type="text" className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors" placeholder="Asaba" />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium text-secondary">State</label>
-                                    <select className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none">
-                                        <option className="bg-base">Delta</option>
-                                        <option className="bg-base">Lagos</option>
-                                        <option className="bg-base">Abuja</option>
-                                        <option className="bg-base">Anambra</option>
-                                    </select>
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-secondary">State</label>
+                                <select name="state" value={formData.state} onChange={handleInputChange} className="w-full bg-white/5 border border-border-subtle rounded-md px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none scrollbar-hide">
+                                    <option value="Delta" className="bg-base">Delta</option>
+                                    <option value="Lagos" className="bg-base">Lagos</option>
+                                    <option value="Abuja" className="bg-base">Abuja</option>
+                                    <option value="Anambra" className="bg-base">Anambra</option>
+                                </select>
                             </div>
                             <button 
                                 onClick={() => setStep(2)}
-                                className="w-full bg-primary text-base py-4 rounded-standard font-bold hover:bg-emerald-400 transition-colors shadow-glow mt-8"
+                                disabled={!formData.fullName || !formData.email || !formData.phone || !formData.address}
+                                className="w-full bg-primary text-base py-4 rounded-standard font-bold hover:bg-emerald-400 transition-colors shadow-glow mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Continue to Payment
                             </button>
@@ -105,32 +182,27 @@ export default function CheckoutPage() {
                                         <div className="w-2.5 h-2.5 rounded-full bg-primary"></div>
                                     </div>
                                 </div>
-                                <div className="p-4 rounded-standard border border-border-subtle bg-white/5 flex items-center justify-between opacity-50 cursor-not-allowed">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-secondary">
-                                            <Phone />
-                                        </div>
-                                        <div>
-                                            <p className="text-white font-bold">Pay on Delivery</p>
-                                            <p className="text-xs text-secondary">Not available for gadgets over ₦100k</p>
-                                        </div>
-                                    </div>
-                                    <div className="w-5 h-5 rounded-full border-2 border-border-subtle"></div>
-                                </div>
                             </div>
 
                             <div className="flex gap-4 mt-8">
                                 <button 
                                     onClick={() => setStep(1)}
-                                    className="flex-1 border border-border-subtle text-white py-4 rounded-standard font-bold hover:bg-white/5 transition-colors"
+                                    disabled={isLoading}
+                                    className="flex-1 border border-border-subtle text-white py-4 rounded-standard font-bold hover:bg-white/5 transition-colors disabled:opacity-50"
                                 >
                                     Go Back
                                 </button>
                                 <button 
-                                    onClick={() => setStep(3)}
-                                    className="flex-[2] bg-primary text-base py-4 rounded-standard font-bold hover:bg-emerald-400 transition-colors shadow-glow"
+                                    onClick={handleConfirmOrder}
+                                    disabled={isLoading}
+                                    className="flex-[2] bg-primary text-base py-4 rounded-standard font-bold hover:bg-emerald-400 transition-colors shadow-glow flex items-center justify-center gap-2 disabled:opacity-70"
                                 >
-                                    Confirm Order
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="animate-spin" size={20} />
+                                            Processing...
+                                        </>
+                                    ) : "Initialize Payment"}
                                 </button>
                             </div>
                         </div>
