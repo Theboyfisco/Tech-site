@@ -40,8 +40,17 @@ export async function POST(req: NextRequest) {
         where: { id: orderId }
       });
 
-      if (!order || order.totalAmount !== amount) {
-        console.error(`Amount mismatch: Order ${orderId} expected ${order?.totalAmount}, got ${amount}`);
+      if (!order) {
+        return NextResponse.json({ error: "Order not found" }, { status: 404 });
+      }
+
+      // Idempotency check: If already paid, return success (already processed)
+      if (order.status === "PAID" && order.paymentReference === reference) {
+        return NextResponse.json({ status: "success", message: "Already processed" });
+      }
+
+      if (order.totalAmount !== amount) {
+        console.error(`Amount mismatch: Order ${orderId} expected ${order.totalAmount}, got ${amount}`);
         return NextResponse.json({ error: "Validation failed" }, { status: 400 });
       }
 

@@ -51,6 +51,7 @@ model Order {
   shippingDetails  ShippingDetails?
 
   @@index([email])
+  @@index([paymentReference])
 }
 
 model OrderItem {

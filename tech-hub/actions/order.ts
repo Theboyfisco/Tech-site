@@ -10,7 +10,7 @@ export async function createOrder(input: CreateOrderInput) {
   
   try {
     // 2. Start Transaction
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // 3. Fetch product prices and verify stock
       const productIds = validated.items.map(i => i.productId);
       const dbProducts = await tx.product.findMany({
@@ -24,7 +24,7 @@ export async function createOrder(input: CreateOrderInput) {
       // 4. Calculate Totals (Never trust client prices)
       let itemsTotal = 0;
       const orderItems = validated.items.map(item => {
-        const product = dbProducts.find(p => p.id === item.productId)!;
+        const product = dbProducts.find((p: any) => p.id === item.productId)!;
         
         if (product.stock < item.quantity) {
           throw new Error(`Insufficient stock for ${product.name}`);
@@ -66,12 +66,21 @@ export async function createOrder(input: CreateOrderInput) {
         }
       });
 
-      // 6. Update Stock
+      // 6. Update Stock (Atomic check to prevent race conditions)
       for (const item of validated.items) {
-        await tx.product.update({
-          where: { id: item.productId },
-          data: { stock: { decrement: item.quantity } }
+        const updateResult = await tx.product.updateMany({
+          where: { 
+            id: item.productId, 
+            stock: { gte: item.quantity } 
+          },
+          data: { 
+            stock: { decrement: item.quantity } 
+          }
         });
+
+        if (updateResult.count === 0) {
+          throw new Error(`Insufficient stock for one or more items (race condition)`);
+        }
       }
 
       return order.id;
