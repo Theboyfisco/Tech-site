@@ -1,4 +1,4 @@
-# TechHub NG — Backend Setup & Deployment Guide
+# Fisco Gadgets — Backend Setup & Deployment Guide
 
 ## 🛠 Supabase Configuration
 
@@ -23,7 +23,7 @@ Supabase uses Connection Pooling. In your `prisma/schema.prisma`, we use two URL
 
 1. **Environment Variables**:
    - `PAYSTACK_SECRET_KEY`: Get this from your Paystack Dashboard (Settings > API Keys & Webhooks).
-   - `NEXT_PUBLIC_APP_URL`: Your production URL (e.g., `https://techhub.ng`).
+   - `NEXT_PUBLIC_APP_URL`: Your production URL (e.g., `https://fiscogadgets.com.ng`).
 
 2. **Webhook URL**:
    - Set your webhook URL in Paystack Dashboard to: `https://your-domain.com/api/paystack/webhook`.
@@ -64,4 +64,4 @@ npx prisma generate
 
 ---
 
-_Senior Backend Engineering Guide — TechHub NG_
+_Senior Backend Engineering Guide — Fisco Gadgets_

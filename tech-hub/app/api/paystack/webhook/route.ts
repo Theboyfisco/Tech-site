@@ -26,12 +26,13 @@ export async function POST(req: NextRequest) {
     const event = JSON.parse(body);
 
     // 2. Handle successful charge
+    // Handle the event
     if (event.event === "charge.success") {
-      const { metadata, amount, reference } = event.data;
-      const orderId = metadata.orderId;
+      const { metadata, reference, amount } = event.data;
+      const orderId = metadata?.orderId;
 
       if (!orderId) {
-        return NextResponse.json({ error: "Missing orderId" }, { status: 400 });
+        return NextResponse.json({ message: "No orderId in metadata" }, { status: 400 });
       }
 
       // 3. Validate order total against received amount

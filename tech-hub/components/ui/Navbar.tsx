@@ -46,6 +46,7 @@ export function Navbar({ categories = [] }: NavbarProps) {
     }, []);
 
     const navLinks = [
+        { name: "Home", href: "/", icon: Smartphone },
         ...categories.map(cat => ({
             name: cat.name,
             href: `/category/${cat.id}`,
@@ -54,7 +55,7 @@ export function Navbar({ categories = [] }: NavbarProps) {
         { name: "About", href: "/about", icon: Info },
         { name: "Contact", href: "/contact", icon: Mail }
     ];
-
+    
     return (
         <>
             <header 
@@ -83,7 +84,7 @@ export function Navbar({ categories = [] }: NavbarProps) {
                             </Link>
                         ) : (
                             <Link href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 tracking-tight">
-                                TechHub NG
+                                Fisco Gadgets
                             </Link>
                         )}
                     </div>
@@ -170,7 +171,7 @@ export function Navbar({ categories = [] }: NavbarProps) {
                             >
                                 <div className="flex items-center justify-between mb-10">
                                     <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600">
-                                        TechHub NG
+                                        Fisco Gadgets
                                     </Link>
                                     <button 
                                         onClick={() => setIsMobileMenuOpen(false)}

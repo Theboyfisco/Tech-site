@@ -1,6 +1,6 @@
-# TechHub NG — Feature Guide & Implementation Details
+# Fisco Gadgets — Feature Guide & Implementation Details
 
-TechHub NG is a premium, high-conversion e-commerce frontend designed for gadget retailers. It prioritizes speed, minimalist aesthetics, and mobile-first accessibility.
+Fisco Gadgets is a premium, high-conversion e-commerce frontend designed for gadget retailers. It prioritizes speed, minimalist aesthetics, and mobile-first accessibility.
 
 ## 🛠 Backend Architecture
 
@@ -65,4 +65,4 @@ TechHub NG is a premium, high-conversion e-commerce frontend designed for gadget
 
 ---
 
-_Created by Antigravity for TechHub NG_
+_Official Platform Guide for Fisco Gadgets_

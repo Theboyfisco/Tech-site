@@ -23,7 +23,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // Load from local storage
     useEffect(() => {
         try {
-            const stored = localStorage.getItem("v1_techhub_cart");
+            const stored = localStorage.getItem("fisco_cart_v1");
             if (stored) {
                 const parsed = JSON.parse(stored);
                 queueMicrotask(() => setCartItems(parsed));
@@ -37,7 +37,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // Sync to local storage
     useEffect(() => {
         if (mounted) {
-            localStorage.setItem("v1_techhub_cart", JSON.stringify(cartItems));
+            localStorage.setItem("fisco_cart_v1", JSON.stringify(cartItems));
         }
     }, [cartItems, mounted]);
 

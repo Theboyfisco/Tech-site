@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { StickyBottomCTA } from "@/components/product/StickyBottomCTA";
 import { SpecComparison } from "@/components/product/SpecComparison";
-import { MessageCircle, ShieldCheck, Truck } from "lucide-react";
+import { MessageCircle, ShieldCheck, Truck, Scale } from "lucide-react";
 import { AddToCartButton } from "@/components/product/AddToCartButton";
+import { CompareButton } from "@/components/product/CompareButton";
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = await params;
@@ -101,14 +102,24 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                                 <MessageCircle size={20} />
                                 Buy via WhatsApp
                             </a>
+                            <CompareButton product={product} showLabel className="bg-white/5 hover:bg-white/10 px-6 rounded-standard border border-white/10" />
                         </div>
                     </div>
                 </div>
 
-                {/* Specs Comparison Section */}
+                {/* Specs Section */}
                 <section className="mt-16 max-w-4xl mx-auto">
-                    <h2 className="text-2xl font-bold text-white mb-8">Compare Specifications</h2>
-                    <SpecComparison productA={product} productB={compareProduct} />
+                    <h2 className="text-2xl font-bold text-white mb-8">Technical Specifications</h2>
+                    <div className="bg-surface/50 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden p-6 shadow-glass">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+                            {Object.entries(product.technicalSpecs).map(([key, value]) => (
+                                <div key={key} className="border-b border-white/5 pb-4">
+                                    <p className="text-xs uppercase tracking-widest text-secondary mb-1 font-bold">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
+                                    <p className="text-white font-medium">{String(value)}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </section>
             </main>
 

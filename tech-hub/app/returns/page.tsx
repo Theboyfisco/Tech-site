@@ -21,7 +21,7 @@ export default function ReturnsPage() {
 
         <section>
           <h2 className="text-2xl font-bold text-white mb-4">Process a Return</h2>
-          <p className="mb-4">To initiate a return, immediately contact our support via WhatsApp or email (support@techhub.com.ng). Do not ship items back without a Return Authorization number provided by our team.</p>
+          <p className="mb-4">To initiate a return, immediately contact our support via WhatsApp or email (support@fiscogadgets.com.ng). Do not ship items back without a Return Authorization number provided by our team.</p>
         </section>
 
         <section>

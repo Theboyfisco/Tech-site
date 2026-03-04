@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 import Image from 'next/image';
+import { CompareButton } from './CompareButton';
 
 export interface Product {
     id: string;
@@ -56,13 +57,18 @@ export function BentoProductCard({ product, featured = false }: BentoProductCard
                 <span>{product.technicalSpecs.ram || "8GB"}</span>
             </div>
 
-            <a
-                href={`https://wa.me/2348000000000?text=${whatsappMsg}`}
-                className="absolute top-4 right-4 p-2 bg-primary/20 hover:bg-primary/40 text-primary rounded-full backdrop-blur-md transition-colors"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <MessageCircle size={20} />
-            </a>
+            <div className="absolute top-4 right-4 flex flex-col gap-2">
+                <a
+                    href={`https://wa.me/2348000000000?text=${whatsappMsg}`}
+                    className="p-2 bg-primary/20 hover:bg-primary/40 text-primary rounded-full backdrop-blur-md transition-colors"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <MessageCircle size={20} />
+                </a>
+                <div onClick={(e) => e.stopPropagation()}>
+                    <CompareButton product={product} />
+                </div>
+            </div>
         </motion.div>
     );
 }

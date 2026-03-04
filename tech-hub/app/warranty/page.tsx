@@ -20,7 +20,7 @@ export default function WarrantyPage() {
 
         <section>
           <h2 className="text-2xl font-bold text-white mb-4">Store Guarantee</h2>
-          <p className="mb-4">At TechHub NG, we stand by our catalog. In addition to any manufacturer warranty, we offer a 6-month store guarantee on our refurbished units. If an issue arises from regular usage that is not linked to water damage or physical drops, we will repair it for free.</p>
+          <p className="mb-4">At Fisco Gadgets, we stand by our catalog. In addition to any manufacturer warranty, we offer a 6-month store guarantee on our refurbished units. If an issue arises from regular usage that is not linked to water damage or physical drops, we will repair it for free.</p>
         </section>
 
         <section>

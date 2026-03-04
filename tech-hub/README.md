@@ -1,6 +1,6 @@
-# TechHub NG — Premium Gadget Storefront
+# Fisco Gadgets — Premium Tech Storefront
 
-Welcome to **TechHub NG**, a cutting-edge, ultra-minimalist e-commerce frontend built with **Next.js 15** and **Tailwind CSS v4**.
+Welcome to **Fisco Gadgets**, a cutting-edge, ultra-minimalist e-commerce frontend built with **Next.js 15** and **Tailwind CSS v4**.
 
 Designed specifically for the Nigerian gadget market (Apple & Samsung specialists), this platform focuses on high conversion rates through mobile-first design, lightning-fast interactions, and glassmorphism aesthetics.
 

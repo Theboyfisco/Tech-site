@@ -7,7 +7,7 @@ export default function TermsPage() {
       <div className="space-y-8 text-secondary">
         <section>
           <h2 className="text-2xl font-bold text-white mb-4">1. Acceptance of Terms</h2>
-          <p>By accessing or using TechHub NG, you agree to be bound by these terms. If you disagree, you may not access our store and services.</p>
+          <p>By accessing or using Fisco Gadgets, you agree to be bound by these terms. If you disagree, you may not access our store and services.</p>
         </section>
 
         <section>
@@ -17,7 +17,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-2xl font-bold text-white mb-4">3. Fraud Prevention</h2>
-          <p>TechHub NG reserves the right to cancel orders flagged as high risk by our payment partners. In such cases, full refunds are issued to the source account.</p>
+          <p>Fisco Gadgets reserves the right to cancel orders flagged as high risk by our payment partners. In such cases, full refunds are issued to the source account.</p>
         </section>
         
         <section>

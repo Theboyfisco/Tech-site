@@ -20,7 +20,7 @@ export function SearchOverlay({ isOpen, onClose }: { isOpen: boolean, onClose: (
             setIsSearching(true);
             try {
                 const dbResults = await searchProducts(query);
-                const mapped = dbResults.map(p => ({
+                const mapped = dbResults.map((p: any) => ({
                     id: p.id,
                     name: p.name,
                     price: p.price,
@@ -156,7 +156,7 @@ export function SearchOverlay({ isOpen, onClose }: { isOpen: boolean, onClose: (
                                 <span className="flex items-center gap-1"><kbd className="bg-white/10 px-1 rounded">ESC</kbd> to close</span>
                                 <span className="flex items-center gap-1"><kbd className="bg-white/10 px-1 rounded">↵</kbd> to select</span>
                             </div>
-                            <p className="text-[10px] text-primary/60 font-medium italic">Powered by TechHub NG Search</p>
+                            <p className="text-[10px] text-primary/60 font-medium italic">Powered by Fisco Search</p>
                         </div>
                     </motion.div>
                 </div>

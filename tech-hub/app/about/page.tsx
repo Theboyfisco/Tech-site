@@ -14,14 +14,14 @@ export default function AboutPage() {
       <div className="max-w-3xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6">Redefining Tech Retail in Nigeria</h1>
         <p className="text-secondary text-lg">
-          TechHub NG was founded with a single mission: to provide Nigerians with authentic, premium gadgets without the typical associated hassle, stress, or inflated costs.
+          Fisco Gadgets was founded with a single mission: to provide Nigerians with authentic, premium gadgets without the typical associated hassle, stress, or inflated costs.
         </p>
       </div>
 
       <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden mb-16 border border-border-subtle">
         <Image 
           src="https://images.unsplash.com/photo-1550935569-450f32b1d3d6?q=80&w=1200&auto=format&fit=crop"
-          alt="TechHub Office"
+          alt="Fisco Gadgets Office"
           fill
           className="object-cover"
         />

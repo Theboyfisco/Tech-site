@@ -35,7 +35,7 @@ export default function ContactPage() {
             <div className="p-3 bg-white/5 rounded-full text-primary shrink-0"><Mail /></div>
             <div>
               <h3 className="text-white font-bold text-lg">Email Support</h3>
-              <p className="text-secondary">support@techhub.com.ng<br/>sales@techhub.com.ng</p>
+              <p className="text-secondary">support@fiscogadgets.com.ng<br/>sales@fiscogadgets.com.ng</p>
             </div>
           </div>
           <div className="flex items-start gap-4">

@@ -30,7 +30,7 @@ export function Footer({ categories = [] }: FooterProps) {
           {/* Brand & Newsletter */}
           <div className="lg:col-span-1">
             <Link href="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-600 inline-block mb-6">
-              TechHub NG
+              Fisco Gadgets
             </Link>
             <p className="text-secondary text-sm mb-6 leading-relaxed">
               Premium authentic gadgets, unbeatable prices, and lightning-fast delivery across Nigeria.
@@ -103,7 +103,7 @@ export function Footer({ categories = [] }: FooterProps) {
               </li>
               <li className="flex items-center gap-3 text-secondary text-sm">
                 <Mail size={18} className="text-primary shrink-0" />
-                <span>support@techhub.com.ng</span>
+                <span>support@fiscogadgets.com.ng</span>
               </li>
             </ul>
             
@@ -123,7 +123,7 @@ export function Footer({ categories = [] }: FooterProps) {
 
         <div className="pt-8 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary text-sm">
-            © {new Date().getFullYear()} TechHub NG. All rights reserved.
+            © {new Date().getFullYear()} Fisco Gadgets. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-secondary hover:text-white text-sm transition-colors">Privacy Policy</Link>
